@@ -1,5 +1,5 @@
 # Stage 1: Build the FastAPI application
-FROM python:3.12-slim-buster AS fastapi 
+FROM python:3.11-slim-buster AS fastapi 
 
 WORKDIR /app
 
