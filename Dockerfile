@@ -1,4 +1,5 @@
-FROM python:3.9-slim
+# Stage 1: Build the FastAPI application
+FROM python:3.9-slim AS fastapi  # Correct stage name
 
 WORKDIR /app
 
@@ -7,15 +8,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Nginx for reverse proxy
-FROM nginx:alpine as nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+# Stage 2: Nginx for reverse proxy (separate container - BEST PRACTICE)
+FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf # Or /etc/nginx/nginx.conf, adjust as needed
 
 # Copy FastAPI app from the previous stage
-COPY --from=fastapi /app /app
+COPY --from=fastapi /app /app  # Correct stage name
 
-# Expose ports
-EXPOSE 80 8000
+EXPOSE 80
 
-# Start both Nginx and FastAPI
-CMD ["sh", "-c", "nginx && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+CMD ["nginx", "-g", "daemon off;"]  # Nginx runs in the foreground
