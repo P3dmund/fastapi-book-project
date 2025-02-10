@@ -2,18 +2,18 @@ version: '3.8'
 
 services:
   fastapi:
-    build: .
+    build: .  # Build the FastAPI image from the Dockerfile in the current directory
     container_name: fastapi-app
     restart: always
     ports:
-      - "8000:8000"
+      - "8000:8000"  # Map host port 8000 to container port 8000
 
   nginx:
-    image: nginx:latest
+    image: nginx:latest  # Use the official Nginx image
     container_name: nginx
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro # Mount nginx config to the correct location
     ports:
-      - "80:80"
+      - "80:80"  # Map host port 80 to container port 80
     depends_on:
       - fastapi
