@@ -1,5 +1,5 @@
 # Stage 1: Build the FastAPI application
-FROM python:3.9-slim AS fastapi  # Correct stage name
+FROM python:3.9-slim
 
 WORKDIR /app
 
