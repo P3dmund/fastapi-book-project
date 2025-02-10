@@ -17,7 +17,7 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
-          cd /home/Precious/fastapi-book-project
+          cd /fastapi-book-project
           git pull origin main
           docker-compose down
           docker-compose up -d --build
