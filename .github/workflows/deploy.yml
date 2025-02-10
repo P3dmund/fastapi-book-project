@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
     - name: Deploy to server
       uses: appleboy/ssh-action@master
       with:
@@ -16,7 +17,7 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
-          cd /path/to/your/project
+          cd /home/Precious/fastapi-book-project
           git pull origin main
           docker-compose down
           docker-compose up -d --build
