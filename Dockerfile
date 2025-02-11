@@ -1,20 +1,16 @@
-# Stage 1: Build the FastAPI application
-FROM python:3.11-slim-buster AS fastapi 
+# Use Python as base image
+FROM python:3.11-slim-buster AS fastapi
 
 WORKDIR /app
 
+# Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Stage 2: Nginx for reverse proxy
-FROM nginx:alpine
+# Expose FastAPI port
+EXPOSE 8000
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=fastapi /app /app
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Run FastAPI with Uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
